@@ -1,0 +1,41 @@
+program linked_list_one;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+
+type
+  Adr = ^Zveno;
+  Zveno = Record
+      Element: Char;
+      AdrCled: Adr;
+  End;
+
+var MainAdr, CurrAdr: Adr;
+Simv: char;
+begin
+  New(Adr1);
+  Adr1^.Element:= 'a';
+  CurrAdr:= Adr1;
+  CurrAdr^.AdrCled:= nil;
+  Readln(Simv);
+  while Simv <> '.' do begin
+    New(CurrAdr^.AdrCled);
+    CurrAdr:= CurrAdr^.AdrCled;
+    CurrAdr^.Element:= Simv;
+    CurrAdr^.AdrCled:= nil;
+    readln(simv);
+  end;
+
+  CurrAdr:= Adr1;
+  while CurrAdr^.AdrCled <> nil do begin
+    write(CurrAdr^.Element);
+    CurrAdr:= CurrAdr^.AdrCled;
+  end;
+
+  readln;
+  
+end.
