@@ -1,0 +1,75 @@
+﻿program linked_list_find;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils;
+
+type
+  Adr = ^Chain;
+  Chain = record
+    Element: integer;
+    SuccAdr: Adr;
+  end;
+
+procedure ListInit(var CurrAdr: Adr);
+var num: integer;
+Begin
+readln(num);
+CurrAdr^.Element:= num;
+readln(num);
+while num <> -1 do begin
+  new(CurrAdr^.SuccAdr);
+  CurrAdr:= CurrAdr^.SuccAdr;
+  CurrAdr^.Element:= num;
+  CurrAdr^.SuccAdr:= nil;
+  readln(num);
+end;
+
+End;
+
+function ListFind(var CurrAdr: Adr; const number: integer): integer;
+var index: integer;
+Begin
+  index:= 0;
+  while (CurrAdr^.SuccAdr <> nil) and (CurrAdr^.Element <> number) do begin
+    inc(index);
+    CurrAdr:= CurrAdr^.SuccAdr;
+  end;
+  if CurrAdr^.Element <> number then index:= -1;
+  result:= index;
+End;
+
+procedure ListDisp(var CurrAdr: Adr);
+Begin
+  while (CurrAdr^.SuccAdr <> nil) do begin
+    write(CurrAdr^.Element, ' ');
+  end;
+  writeln;
+End;
+
+var CurrAdr, MainAdr: Adr;
+OurIndex:integer;
+begin
+//Блок инициализации
+Writeln('Enter numbers you want to add: ');
+New(MainAdr);
+CurrAdr:= MainAdr;
+CurrAdr^.SuccAdr:= nil;
+ListInit(CurrAdr);
+
+//Блок поиска
+CurrAdr:= MainAdr;
+OurIndex:= ListFind(CurrAdr, 20);
+
+if OurIndex <> -1 then writeln('Index of ', 20, ' is ', OurIndex) else writeln('There is no such index');
+
+//Блок вывода
+write('Your List: ');
+CurrAdr:= MainAdr;
+ListDisp(CurrAdr);
+
+readln;
+end.
